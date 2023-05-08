@@ -34,8 +34,7 @@ def check_credentials():
         pin_label.grid_forget()
         pin_entry.grid_forget()
         login_button.grid_forget()
-        incorrect_label.grid_forget()
-        
+        incorrect_label.grid_forget()       
         return True
 
 def view_balance():
@@ -48,6 +47,7 @@ def view_balance():
     deposit_button.grid_forget()
     withdraw_button.grid_forget()
     exit_button.grid_forget()
+    quit_button.grid_forget()
     back_button.grid(row=3, column=0)
     balance_label.grid(row=2, column=0)
 
@@ -61,11 +61,15 @@ def back():
     amount_label.grid_forget()
     amount_entry.grid_forget()
     balance_label.grid_forget()
+    quit_button.grid_forget()
 
         
 def exit():
     reset_ui()
-    
+
+def quit():
+    root.destroy()
+
 def reset_ui():
     account_number_entry.delete(0, 'end')
     pin_entry.delete(0, 'end')
@@ -77,6 +81,7 @@ def reset_ui():
     amount_label.grid_forget()
     amount_entry.delete(0, 'end')
     login_button.grid(row=2, column=1)
+    quit_button.grid(row=2, column=0)
     account_number_label.grid(row=0, column=0)
     account_number_entry.grid(row=0, column=1)
     pin_label.grid(row=1, column=0)
@@ -93,6 +98,7 @@ def deposit():
     deposit_button.grid_forget()
     withdraw_button.grid_forget()
     exit_button.grid_forget()
+    quit_button.grid_forget()
     back_button.grid(row=3, column=0)
     balance_label.grid(row=2, column=0)
     amount_label.grid(row=4, column=0)
@@ -110,6 +116,7 @@ def withdraw():
     deposit_button.grid_forget()
     withdraw_button.grid_forget()
     exit_button.grid_forget()
+    quit_button.grid_forget()
     back_button.grid(row=3, column=0)
     balance_label.grid(row=2, column=0)
     amount_label.grid(row=4, column=0)
@@ -130,6 +137,7 @@ def update_balance(account_number, balance, amount, transaction_type, submit_but
     else:
         if amount > balance:
             messagebox.showerror("Error", "Withdrawal amount exceeds current balance")
+            submit_button.grid_forget()
             return
         new_balance = balance - amount
     db.execute("UPDATE accounts SET balance = ? WHERE account_number = ?", (new_balance, account_number))
@@ -155,7 +163,9 @@ pin_entry.grid(row=1, column=1)
 
 
 login_button = tk.Button(root, text="Login", command=check_credentials)
+quit_button = tk.Button(root, text="Quit", command=quit)
 login_button.grid(row=2, column=1)
+quit_button.grid(row=2, column=0)
 
 balance_label = tk.Label(root, text="")
 deposit_button = tk.Button(root, text="Deposit", command=deposit)
